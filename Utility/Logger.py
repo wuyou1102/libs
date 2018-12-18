@@ -3,9 +3,7 @@ import logging.config
 import os
 import sys
 
-__LOG = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "log", "console")
-if not os.path.exists(__LOG):
-    os.makedirs(__LOG)
+__LOG = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "console.log")
 
 logging.config.dictConfig({
     'version': 1,
@@ -24,10 +22,11 @@ logging.config.dictConfig({
         },
         'file': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(__LOG, 'Debug.txt'),
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': __LOG,
             'formatter': 'verbose',
             'encoding': 'utf8',
+            'maxBytes': 1024 * 1024 * 5,
         }
     },
     'loggers': {
